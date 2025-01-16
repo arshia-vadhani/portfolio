@@ -9,10 +9,14 @@ body {
   }
   nav{
     display:flex;
-    margin-bottom: 10px;
+    margin-bottom: 0.2em;
+    text-decoration: none;
+    text-align: center;
+    color: inherit;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: oklch(80% 3% 200);
+    padding: 0.5em; 
   }
   nav a{
     flex:1;
