@@ -10,9 +10,7 @@ body {
   nav{
     display:flex;
     margin-bottom: 0.2em;
-    text-decoration: none;
     text-align: center;
-    color: inherit;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: oklch(80% 3% 200);
@@ -28,7 +26,7 @@ body {
   nav a.current{
     border-bottom-width: 0.4em;
     border-bottom-color: oklch(80% 3% 200);
-    padding-bottom: 0.2 em;
+    padding-bottom: 0.2em;
   }
   nav ul,
   nav ul li {
