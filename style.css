@@ -7,6 +7,12 @@ body {
     margin-inline: auto;
     padding: 20px
   }
+  nav{
+    display:flex;
+  }
+  nav a{
+    flex:1;
+  }
   nav ul,
   nav ul li {
       display: contents;
