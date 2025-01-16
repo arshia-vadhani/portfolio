@@ -8,16 +8,15 @@ body {
     padding: 20px
   }
   nav{
-    display:flex;
+    display: flex;
+    justify-content: space-evenly; 
+    align-items: center; 
     margin-bottom: 0.2em;
-    text-align: center;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: oklch(80% 3% 200);
-    padding: 0.5em; 
+    border-bottom: 1px solid oklch(80% 3% 200);
+    padding: 0.5em;
   }
   nav a{
-    flex:1;
+    flex: 1;
     text-decoration: none;
     color: inherit;
     text-align: center;
