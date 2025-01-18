@@ -66,7 +66,7 @@ form button {
 .projects {
   display: grid;  
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-  grid-template-rows: repeat(3, auto);  
+  grid-template-rows: subgrid;
   gap: 1em;  
 }
 
