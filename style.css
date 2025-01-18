@@ -77,19 +77,86 @@ form button {
   grid-row: span 3;
   gap: 1em
 }
-/* Apply good defaults for all headings */
+
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.1; /* Smaller leading for headings */
-  text-wrap: balance; /* Ensure balanced text wrapping */
-  margin: 0.5em 0; /* Add consistent spacing before and after headings */
+  line-height: 1.1; 
+  text-wrap: balance; 
+  margin: 0.5em 0; 
 }
 
-/* Make <h1> significantly larger */
+
 h1 {
-  font-size: 400%; /* 400% of the body text size */
+  font-size: 400%; 
 }
 
 .projects h2 {
   font-size: 200%; 
 }
+
+section {
+  margin-bottom: 2em; 
+  padding: 1em; 
+  background: #fdfdfd; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+
+section header h2 {
+  font-size: 1.8rem; 
+  color: var(--color-accent);
+  margin-bottom: 0.5em; 
+  border-bottom: 2px solid oklch(80% 3% 200); 
+  padding-bottom: 0.3em; 
+}
+
+
+article h3 {
+  font-size: 1.5rem; 
+  color: #333; 
+  margin-bottom: 0.3em; 
+}
+
+
+article p {
+  margin: 0.3em 0; 
+  font-size: 1rem; 
+  color: #555; 
+}
+
+
+ul {
+  margin: 1em 0 0 1.5em; 
+  list-style: disc; 
+}
+
+ul li {
+  margin-bottom: 0.5em; 
+  line-height: 1.4; 
+}
+
+
+header h1 {
+  font-size: 2.5rem; 
+  color: var(--color-accent); 
+  text-align: center; 
+  margin-bottom: 0.5em; 
+}
+
+header p {
+  text-align: center;
+  font-size: 1.2rem; 
+  margin: 0 0 1em; 
+  color: #555; 
+}
+
+a {
+  color: var(--color-accent); 
+  text-decoration: none; 
+}
+
+a:hover {
+  text-decoration: underline; 
+}
+
 
