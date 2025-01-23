@@ -13,7 +13,8 @@ currentLink?.classList.add('current');
 let pages = [
     { url: '', title: 'Home' },
     { url: 'projects/', title: 'Projects' },
-    // add the rest of your pages here
+    { url: 'contact/', title: 'Contact' },
+    { url: 'CV/', title: 'CV'}
   ];
 let nav = document.createElement('nav');
   document.body.prepend(nav);
