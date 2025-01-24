@@ -47,13 +47,23 @@ a.classList.toggle(
     </label>`
   );
 
+if ('colorScheme' in localStorage) {
+  const savedColorScheme = localStorage.colorScheme;
+
+  // Set the color scheme to the saved value
+  document.documentElement.style.setProperty('color-scheme', savedColorScheme);
+
+  const select = document.querySelector('.color-scheme select');
+  select.value = savedColorScheme;
+}
 
 const select = document.querySelector('.color-scheme select');
 
-// Add an event listener for the "input" event
 select.addEventListener('input', function (event) {
-  console.log('Color scheme changed to:', event.target.value);
+  const newColorScheme = event.target.value;
+  console.log('Color scheme changed to:', newColorScheme);
 
-  // Change the color scheme by setting the color-scheme CSS property
-  document.documentElement.style.setProperty('color-scheme', event.target.value);
+  document.documentElement.style.setProperty('color-scheme', newColorScheme);
+
+  localStorage.colorScheme = newColorScheme;
 });
