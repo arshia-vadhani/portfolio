@@ -29,9 +29,7 @@ for (let p of pages) {
     nav.append(a);
     }
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
-if (!ARE_WE_HOME && !url.startsWith('http')) {
-    url = '../' + url;
-  }
+url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
 a.classList.toggle(
   'current',
   a.host === location.host && a.pathname === location.pathname
