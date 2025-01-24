@@ -172,5 +172,11 @@ a {
 a:hover {
   text-decoration: underline; 
 }
-
+.color-scheme {
+  position: absolute;
+  top: 1rem; /* Adjust the value to your preference */
+  right: 1rem; /* Adjust the value to your preference */
+  font-size: 80%; /* Makes the font smaller */
+  font-family: inherit; /* Ensures it matches the font-family of the parent */
+}
 

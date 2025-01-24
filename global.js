@@ -34,3 +34,26 @@ a.classList.toggle(
   'current',
   a.host === location.host && a.pathname === location.pathname
   );
+  document.body.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <label class="color-scheme">
+        Theme:
+        <select id="theme-selector">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="automatic">Automatic</option>
+        </select>
+    </label>`
+  );
+
+
+const select = document.querySelector('.color-scheme select');
+
+// Add an event listener for the "input" event
+select.addEventListener('input', function (event) {
+  console.log('Color scheme changed to:', event.target.value);
+
+  // Change the color scheme by setting the color-scheme CSS property
+  document.documentElement.style.setProperty('color-scheme', event.target.value);
+});
