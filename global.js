@@ -10,6 +10,7 @@ let currentLink = navLinks.find(
     (a) => a.host === location.host && a.pathname === location.pathname
   );
 currentLink?.classList.add('current');
+const ARE_WE_HOME = document.documentElement.classList.contains('home');
 let pages = [
     { url: '', title: 'Home' },
     { url: 'projects/', title: 'Projects' },
@@ -23,17 +24,21 @@ document.body.prepend(nav);
 for (let p of pages) {
     let url = p.url;
     let title = p.title;
+    
+    url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+    
     let a = document.createElement('a');
     a.href = url;
     a.textContent = title;
+    
+    a.classList.toggle(
+      'current',
+      a.host === location.host && a.pathname === location.pathname
+      );
+    a.toggleAttribute('target', a.host !== location.host);
     nav.append(a);
     }
-const ARE_WE_HOME = document.documentElement.classList.contains('home');
-url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
-a.classList.toggle(
-  'current',
-  a.host === location.host && a.pathname === location.pathname
-  );
+
   document.body.insertAdjacentHTML(
     'afterbegin',
     `
@@ -47,6 +52,7 @@ a.classList.toggle(
     </label>`
   );
 
+// Check if the user has a saved color scheme in localStorage
 if ('colorScheme' in localStorage) {
   const savedColorScheme = localStorage.colorScheme;
 
