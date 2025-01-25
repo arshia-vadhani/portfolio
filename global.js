@@ -3,6 +3,34 @@ console.log('IT’S ALIVE!');
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
+if ('colorScheme' in localStorage) {
+  const savedColorScheme = localStorage.colorScheme;
+  // Set the color scheme to the saved value
+  document.documentElement.style.setProperty('color-scheme', savedColorScheme);
+
+}
+
+document.body.insertAdjacentHTML(
+  'afterbegin',
+  `
+  <label class="color-scheme">
+      Theme:
+      <select id="theme-selector">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="automatic">Automatic</option>
+      </select>
+  </label>`
+);
+
+const select = document.querySelector('.color-scheme select');
+
+select.addEventListener('input', function (event) {
+  const newColorScheme = event.target.value;
+  document.documentElement.style.setProperty('color-scheme', newColorScheme);
+  localStorage.colorScheme = newColorScheme;
+  console.log('Color scheme changed to:', newColorScheme);
+});
 
 const navLinks = $$("nav a");
 console.log(navLinks);
@@ -39,37 +67,5 @@ for (let p of pages) {
     nav.append(a);
     }
 
-  document.body.insertAdjacentHTML(
-    'afterbegin',
-    `
-    <label class="color-scheme">
-        Theme:
-        <select id="theme-selector">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="automatic">Automatic</option>
-        </select>
-    </label>`
-  );
 
-// Check if the user has a saved color scheme in localStorage
-if ('colorScheme' in localStorage) {
-  const savedColorScheme = localStorage.colorScheme;
 
-  // Set the color scheme to the saved value
-  document.documentElement.style.setProperty('color-scheme', savedColorScheme);
-
-  const select = document.querySelector('.color-scheme select');
-  select.value = savedColorScheme;
-}
-
-const select = document.querySelector('.color-scheme select');
-
-select.addEventListener('input', function (event) {
-  const newColorScheme = event.target.value;
-  console.log('Color scheme changed to:', newColorScheme);
-
-  document.documentElement.style.setProperty('color-scheme', newColorScheme);
-
-  localStorage.colorScheme = newColorScheme;
-});
