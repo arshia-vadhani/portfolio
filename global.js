@@ -32,37 +32,36 @@ select.addEventListener('input', function (event) {
   console.log('Color scheme changed to:', newColorScheme);
 });
 
-
-const ARE_WE_HOME = document.documentElement.classList.contains('home');
+let nav = document.createElement('nav');
+document.body.prepend(nav);
 let pages = [
     { url: '', title: 'Home' },
-    { url: 'projects/', title: 'Projects' },
-    { url: 'contact/', title: 'Contact' },
-    { url: 'CV/', title: 'CV'},
+    { url: '/projects/', title: 'Projects' },
+    { url: '/contact/', title: 'Contact' },
+    { url: '/CV/', title: 'CV'},
     { url: 'https://github.com/arshia-vadhani', title: 'Github' }
 
   ];
-let nav = document.createElement('nav');
-document.body.prepend(nav);
+const ARE_WE_HOME = document.documentElement.classList.contains('home');
 for (let p of pages) {
-    let url = p.url;
-    let title = p.title;
-    
-    url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
-    
-    let a = document.createElement('a');
-    a.href = url;
-    a.textContent = title;
-    if (a.host === location.host && a.pathname === location.pathname) {
-      a.classList.add('current');
-    }
-    a.classList.toggle(
-      'current',
-      a.host === location.host && a.pathname === location.pathname
-      );
-    a.toggleAttribute('target', a.host !== location.host);
-    nav.append(a);
-    }
+  let url = p.url;
+  let title = p.title;
+  
+  url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+  
+  let a = document.createElement('a');
+  a.href = url;
+  a.textContent = title;
+  a.classList.toggle(
+    'current',
+    a.host === location.host && a.pathname === location.pathname
+    );
+  if (p.external) {
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+  }
+  nav.append(a);
+  }
 
 
 
