@@ -32,12 +32,7 @@ select.addEventListener('input', function (event) {
   console.log('Color scheme changed to:', newColorScheme);
 });
 
-const navLinks = $$("nav a");
-console.log(navLinks);
-let currentLink = navLinks.find(
-    (a) => a.host === location.host && a.pathname === location.pathname
-  );
-currentLink?.classList.add('current');
+
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 let pages = [
     { url: '', title: 'Home' },
