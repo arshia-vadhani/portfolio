@@ -36,9 +36,9 @@ select.addEventListener('input', function (event) {
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 let pages = [
     { url: '', title: 'Home' },
-    { url: 'projects/', title: 'Projects' },
-    { url: 'contact/', title: 'Contact' },
-    { url: 'CV/', title: 'CV'},
+    { url: '/projects/', title: 'Projects' },
+    { url: '/contact/', title: 'Contact' },
+    { url: '/CV/', title: 'CV'},
     { url: 'https://github.com/arshia-vadhani', title: 'Github' }
 
   ];
