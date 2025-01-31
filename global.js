@@ -84,5 +84,7 @@ export async function fetchJSON(url) {
 }
 
 // Call the function with the correct path
-fetchJSON("lib/projects.json");
+fetchJSON("../lib/projects.json")
+  .then(data => console.log("Data from .then():", data))
+  .catch(error => console.error("Error in .then():", error));
 
