@@ -62,29 +62,50 @@ for (let p of pages) {
   }
   nav.append(a);
 }
+// Function to fetch the JSON data
 export async function fetchJSON(url) {
   try {
       // Fetch the JSON file from the given URL
       const response = await fetch(url);
-      
+
+      // Check if the response was successful
       if (!response.ok) {
-        throw new Error(`Failed to fetch projects: ${response.statusText}`);
+          throw new Error(`Failed to fetch projects: ${response.statusText}`);
       }
 
-      // Parse the JSON response
+      // Parse and return the JSON data
       const data = await response.json();
+      return data;
 
-      // Log the fetched data
-      console.log("Fetched Data:", data); 
-
-      return data; // Return the fetched JSON data
   } catch (error) {
-      console.error("Error fetching or parsing JSON data:", error);
+      console.error('Error fetching or parsing JSON data:', error);
   }
 }
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+  // Clear the existing content of the container element only once
+  containerElement.innerHTML = '';
 
-// Call the function with the correct path
-fetchJSON("../lib/projects.json")
-  .then(data => console.log("Data from .then():", data))
-  .catch(error => console.error("Error in .then():", error));
+  // Loop through each project and create its corresponding element
+  projects.forEach(project => {
+      // Create a new <article> element for the project
+      const article = document.createElement('article');
+
+      // Dynamically set the heading level using the headingLevel parameter
+      const heading = document.createElement(headingLevel);  // Create the dynamic heading element
+      heading.textContent = project.title;  // Set the project title
+
+      // Populate the <article> element with dynamic content using innerHTML
+      article.innerHTML = `
+          ${heading.outerHTML}  <!-- Insert the dynamic heading here -->
+          <img src="${project.image}" alt="${project.title}">
+          <p>${project.description}</p>
+      `;
+
+      // Append the article element to the container
+      containerElement.appendChild(article);
+  });
+}
+
+
+
 
