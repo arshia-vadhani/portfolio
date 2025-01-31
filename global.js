@@ -62,5 +62,27 @@ for (let p of pages) {
   }
   nav.append(a);
 }
+export async function fetchJSON(url) {
+  try {
+      // Fetch the JSON file from the given URL
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch projects: ${response.statusText}`);
+      }
 
+      // Parse the JSON response
+      const data = await response.json();
+
+      // Log the fetched data
+      console.log("Fetched Data:", data); 
+
+      return data; // Return the fetched JSON data
+  } catch (error) {
+      console.error("Error fetching or parsing JSON data:", error);
+  }
+}
+
+// Call the function with the correct path
+fetchJSON("../lib/projects.json");
 
