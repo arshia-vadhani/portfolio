@@ -84,5 +84,5 @@ export async function fetchJSON(url) {
 }
 
 // Call the function with the correct path
-fetchJSON("../lib/projects.json");
+fetchJSON("/lib/projects.json");
 
