@@ -33,4 +33,27 @@ let arc = arcGenerator({
     startAngle: 0,
     endAngle: 2 * Math.PI,
   });
-d3.select('svg').append('path').attr('d', arc).attr('fill', 'red');
+let data = [1, 2];
+let colors = ['gold', 'purple'];
+let total = 0;
+for (let d of data) {
+  total += d;
+}
+let angle = 0;
+let arcData = data.map(d => {
+  let startAngle = angle;
+  let endAngle = angle + (d / total) * 2 * Math.PI;
+  angle = endAngle;
+  return { startAngle, endAngle };
+});
+
+// Generate arc paths
+let arcs = arcData.map(d => arcGenerator(d));
+
+// Create pie chart
+arcs.forEach((arc, idx) => {
+  d3.select('svg')
+    .append('path')
+    .attr('d', arc)
+    .attr('fill', colors[idx]);
+});
