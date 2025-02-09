@@ -3,7 +3,7 @@ import { fetchJSON, renderProjects } from '../global.js';
 async function loadProjects() {
   try {
     // Fetch project data from the JSON file
-    const projects = await fetchJSON('../lib/projects.json');
+    const projects = await fetchJSON('../projects/projects.json');
 
     if (projects) {
       // Select the container element in the HTML
