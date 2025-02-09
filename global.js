@@ -102,11 +102,15 @@ projects.forEach(project => {
   const article = document.createElement('article');
   const heading = document.createElement(headingLevel);
   heading.textContent = project.title;
+  const year = document.createElement('p');
+  year.classList.add('project-year');
+  year.textContent = `Year: ${project.year}`; 
   article.innerHTML = `
     ${heading.outerHTML}
     <img src="${project.image}" alt="${project.title}">
     <p>${project.description}</p>
   `;
+  article.appendChild(year);
   containerElement.appendChild(article);
 });
 }
