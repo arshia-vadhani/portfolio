@@ -38,7 +38,7 @@ let data = [
   ];
 
   // Create a color scale
-  let colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+  let colorScale = d3.scaleOrdinal(d3.schemeTableau10);
   
   // Create arc generator
   let arcGenerator = d3.arc()
