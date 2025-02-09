@@ -110,3 +110,16 @@ projects.forEach(project => {
   containerElement.appendChild(article);
 });
 }
+
+export async function fetchGitHubData(username) {
+  const url = `https://api.github.com/users/${arshia-vadhani}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching GitHub data:', error);
+  }
+}
