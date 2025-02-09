@@ -27,42 +27,76 @@ async function loadProjects() {
 }
 
 // Load projects when DOM is fully loaded
-document.addEventListener('DOMContentLoaded', loadProjects);
-let projects = await fetchJSON('./lib/projects.json');
-let rolledData = d3.rollups(
-    projects,
+let query = '';
+let projects = [];
+let filteredProjects = [];
+
+// Function to update the chart
+function updateChart() {
+  let rolledData = d3.rollups(
+    filteredProjects,
     (v) => v.length,
     (d) => d.year
   );
+
   let data = rolledData.map(([year, count]) => {
     return { value: count, label: year };
   });
-  // Create a color scale
-  let colorScale = d3.scaleOrdinal(d3.schemeTableau10);
-  
-  // Create arc generator
-  let arcGenerator = d3.arc()
-    .innerRadius(0)
-    .outerRadius(50);
-  
-  // Create slice generator
-let sliceGenerator = d3.pie().value(d => d.value);
-let arcData = sliceGenerator(data);
-let arcs = arcData.map(d => arcGenerator(d));
-  
-d3.select('svg')
+  let sliceGenerator = d3.pie().value(d => d.value);
+  let arcData = sliceGenerator(data);
+  let arcs = arcData.map(d => arcGenerator(d));
+
+  let paths = d3.select('svg')
     .selectAll('path')
-    .data(arcs)
-    .enter()
+    .data(arcs);
+
+  paths.enter()
     .append('path')
+    .merge(paths)
     .attr('d', d => d)
     .attr('fill', (d, i) => colorScale(i));
-let legend = d3.select('.legend');
-legend.selectAll('li')
-    .data(data)
-    .enter()
+
+  paths.exit().remove();
+
+  // Update legend
+  let legend = d3.select('.legend');
+  let items = legend.selectAll('li')
+    .data(data);
+
+  items.enter()
     .append('li')
+    .merge(items)
     .attr('class', 'legend-item')
     .attr('style', (d, i) => `--color:${colorScale(i)}`)
     .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
-  
+
+  items.exit().remove();
+}
+
+// Initialize the chart
+async function initChart() {
+  projects = await fetchJSON('./lib/projects.json');
+  filteredProjects = projects;
+  updateChart();
+
+  let searchInput = document.querySelector('.searchBar');
+  searchInput.addEventListener('input', (event) => {
+    query = event.target.value.toLowerCase();
+    filteredProjects = projects.filter((project) => 
+      project.title.toLowerCase().includes(query) ||
+      project.description.toLowerCase().includes(query)
+    );
+    updateChart();
+  });
+}
+
+// Create arc generator
+let arcGenerator = d3.arc()
+  .innerRadius(0)
+  .outerRadius(50);
+
+// Create color scale
+let colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+// Initialize the chart when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initChart);
