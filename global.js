@@ -1,4 +1,4 @@
-console.log('IT IS ALIVE!');
+console.log('ALIVE');
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
@@ -9,53 +9,123 @@ if ('colorScheme' in localStorage) {
   document.documentElement.style.setProperty('color-scheme', savedColorScheme);
 }
 
+function init() {
+  // Create and insert navigation bar
+  const ARE_WE_HOME = document.documentElement.classList.contains('home');
+
+  let pages = [
+    { url: '', title: 'Home' },
+    { url: 'projects/', title: 'Projects' },
+    { url: 'contact/', title: 'Contact' },
+    { url: 'CV/', title: 'CV' },
+    { url: 'https://github.com/arshia-vadhani', title: 'Github', external: true }
+  ];
+
+  let nav = document.createElement('nav');
+
+  for (let p of pages) {
+    let url = p.url;
+    let title = p.title;
+
+    url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+
+    let a = document.createElement('a');
+    a.href = url;
+    a.textContent = title;
+    a.classList.toggle(
+      'current',
+      a.host === location.host && a.pathname === location.pathname
+    );
+    if (p.external) {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
+    nav.append(a);
+  }
+
+  // Insert the navigation bar at the beginning of the body
+  document.body.insertAdjacentElement('afterbegin', nav);
+
+  // Insert theme selector
+  document.body.insertAdjacentHTML(
+    'afterbegin',
+    `<label class="color-scheme">
+        Theme:
+        <select id="theme-selector">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="automatic">Automatic</option>
+        </select>
+    </label>`
+  );
+
+  const select = document.querySelector('.color-scheme select');
+  select.addEventListener('input', function (event) {
+    const newColorScheme = event.target.value;
+    document.documentElement.style.setProperty('color-scheme', newColorScheme);
+    localStorage.colorScheme = newColorScheme;
+    console.log('Color scheme changed to:', newColorScheme);
+  });
+
+  // Initialize saved theme
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  applyTheme(savedTheme);
+
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const newTheme =
+        document.documentElement.getAttribute('data-theme') === 'light'
+          ? 'dark'
+          : 'light';
+      applyTheme(newTheme);
+    });
+  }
+
+  // Adjust navigation links
+  const isHomepage = document.body.classList.contains('home');
+  document.querySelectorAll('nav a').forEach(link => {
+    if (!isHomepage && link.getAttribute('href') === 'index.html') {
+      link.setAttribute('href', './');
+    }
+  });
+}
+
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('theme', theme);
 }
 
-// Fetch JSON data
+// Ensure the script runs regardless of when DOMContentLoaded is fired
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
 export async function fetchJSON(url) {
   try {
-    // Fetch the JSON file from the given URL
     const response = await fetch(url);
-
-    // Check if the response was successful
     if (!response.ok) {
       throw new Error(`Failed to fetch projects: ${response.statusText}`);
     }
-
-    // Parse and return the JSON data
-    const data = await response.json();
-    return data;
-
+    return await response.json();
   } catch (error) {
     console.error('Error fetching or parsing JSON data:', error);
   }
 }
 
-// Render projects dynamically
 export function renderProjects(projects, containerElement, headingLevel = 'h2') {
-  // Clear existing content
   containerElement.innerHTML = '';
-
-  // Loop through each project and create its corresponding element
   projects.forEach(project => {
-    // Create a new <article> element for the project
     const article = document.createElement('article');
-
-    // Dynamically set the heading level using the headingLevel parameter
     const heading = document.createElement(headingLevel);
     heading.textContent = project.title;
-
-    // Populate the <article> element with dynamic content using innerHTML
     article.innerHTML = `
       ${heading.outerHTML}
       <img src="${project.image}" alt="${project.title}">
       <p>${project.description}</p>
     `;
-
-    // Append the article element to the container
     containerElement.appendChild(article);
   });
 }
