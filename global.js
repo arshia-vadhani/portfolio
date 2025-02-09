@@ -111,14 +111,16 @@ projects.forEach(project => {
 });
 }
 
+// global.js
+
 export async function fetchGitHubData(username) {
-  const url = `https://api.github.com/users/${arshia-vadhani}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(`https://api.github.com/users/${arshia-vadhani}`);
     if (!response.ok) {
-      throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
+      throw new Error('Network response was not ok');
     }
-    return await response.json();
+    const data = await response.json();
+    return data;  // Return the parsed JSON data
   } catch (error) {
     console.error('Error fetching GitHub data:', error);
   }
