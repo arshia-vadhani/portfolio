@@ -16,28 +16,28 @@ function init() {
     { url: 'https://github.com/arshia-vadhani', title: 'Github', external: true }
   ];
 
-  let nav = document.createElement('nav');
+let nav = document.createElement('nav');
 nav.classList.add('topnav');
 document.body.prepend(nav);
 
-  for (let p of pages) {
-    let url = p.url;
-    let title = p.title;
+for (let p of pages) {
+  let url = p.url;
+  let title = p.title;
 
- if (!ARE_WE_HOME && !url.startsWith('http')) {
-      url = '../' + url;
-    }
+  if (!ARE_WE_HOME && !url.startsWith('http')) {
+    url = '../' + url;
+  }
 
-    let a = document.createElement('a');
-    a.href = url;
-    a.textContent = title;
+  let a = document.createElement('a');
+  a.href = url;
+  a.textContent = title;
 
-    a.classList.toggle(
-      'current',
-      a.host === location.host && a.pathname === location.pathname
-    );
+  a.classList.toggle(
+    'current',
+    a.host === location.host && a.pathname === location.pathname
+  );
   a.target = a.host !== location.host ? '_blank' : '_self';
-    nav.append(a);
+  nav.append(a);
   }
 
 
@@ -61,17 +61,16 @@ document.body.prepend(nav);
   document.documentElement.style.setProperty('color-scheme', savedTheme)
   select.value = savedTheme
 
-  select.addEventListener('input', function (event) {
-    const newColorScheme = event.target.value;
-
-    console.log('Color scheme changed to', newColorScheme);
-
-
-    document.documentElement.style.setProperty('color-scheme', newColorScheme);
-
-
-    localStorage.setItem('colorScheme', newColorScheme);
-  });
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const newTheme =
+        document.documentElement.getAttribute('data-theme') === 'light'
+          ? 'dark'
+          : 'light';
+      applyTheme(newTheme);
+    });
+  }
 
 //   // Adjust navigation links
 //   const isHomepage = document.body.classList.contains('home');
