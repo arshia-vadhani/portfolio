@@ -114,14 +114,5 @@ projects.forEach(project => {
 // global.js
 
 export async function fetchGitHubData(username) {
-  try {
-    const response = await fetch(`https://api.github.com/users/${username}`);;
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    return data;  // Return the parsed JSON data
-  } catch (error) {
-    console.error('Error fetching GitHub data:', error);
-  }
+  return fetchJSON(`https://api.github.com/users/${username}`);
 }
