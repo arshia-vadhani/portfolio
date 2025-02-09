@@ -58,9 +58,11 @@ d3.select('svg')
   .append('path')
   .attr('d', d => d)
   .attr('fill', (d, i) => colorScale(i));
-let legend = d3.select('.legend');
-data.forEach((d, idx) => {
-    legend.append('li')
+  let legend = d3.select('.legend');
+  data.forEach((d, idx) => {
+      legend.append('li')
+            .attr('class', 'legend-item')
             .attr('style', `--color:${colorScale(idx)}`)
             .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
-});
+  });
+  
