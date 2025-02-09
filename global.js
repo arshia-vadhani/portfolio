@@ -1,4 +1,4 @@
-console.log('IT’S ALIVE!');
+console.log('ALIVE');
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
@@ -9,16 +9,16 @@ if ('colorScheme' in localStorage) {
   document.documentElement.style.setProperty('color-scheme', savedColorScheme);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function init() {
   // Create and insert navigation bar
   const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
   let pages = [
-      { url: '', title: 'Home' },
-      { url: 'projects/', title: 'Projects' },
-      { url: 'contact/', title: 'Contact' },
-      { url: 'CV/', title: 'CV'},
-      { url: 'https://github.com/arshia-vadhani', title: 'Github', external: true }
+    { url: '', title: 'Home' },
+    { url: 'projects/', title: 'Projects' },
+    { url: 'contact/', title: 'Contact' },
+    { url: 'CV/', title: 'CV' },
+    { url: 'https://github.com/arshia-vadhani', title: 'Github', external: true }
   ];
 
   let nav = document.createElement('nav');
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
   for (let p of pages) {
     let url = p.url;
     let title = p.title;
-    
+
     url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
-    
+
     let a = document.createElement('a');
     a.href = url;
     a.textContent = title;
@@ -67,14 +67,17 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Color scheme changed to:', newColorScheme);
   });
 
-  // Theme switching and persistence
+  // Initialize saved theme
   const savedTheme = localStorage.getItem('theme') || 'light';
   applyTheme(savedTheme);
 
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-      const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      const newTheme =
+        document.documentElement.getAttribute('data-theme') === 'light'
+          ? 'dark'
+          : 'light';
       applyTheme(newTheme);
     });
   }
@@ -86,7 +89,19 @@ document.addEventListener('DOMContentLoaded', function () {
       link.setAttribute('href', './');
     }
   });
-});
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}
+
+// Ensure the script runs regardless of when DOMContentLoaded is fired
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 export async function fetchJSON(url) {
   try {
@@ -114,10 +129,3 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     containerElement.appendChild(article);
   });
 }
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-}
-
-export { fetchJSON, renderProjects };
