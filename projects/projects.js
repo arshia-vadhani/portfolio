@@ -28,32 +28,28 @@ async function loadProjects() {
 
 // Load projects when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', loadProjects);
-let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-let arc = arcGenerator({
-    startAngle: 0,
-    endAngle: 2 * Math.PI,
-  });
-let data = [1, 2];
-let colors = ['gold', 'purple'];
-let total = 0;
-for (let d of data) {
-  total += d;
-}
-let angle = 0;
-let arcData = data.map(d => {
-  let startAngle = angle;
-  let endAngle = angle + (d / total) * 2 * Math.PI;
-  angle = endAngle;
-  return { startAngle, endAngle };
-});
+  let data = [1, 2, 3, 4, 5, 5];
 
-// Generate arc paths
-let arcs = arcData.map(d => arcGenerator(d));
-
-// Create pie chart
-arcs.forEach((arc, idx) => {
+  // Create a color scale
+  let colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+  
+  // Create arc generator
+  let arcGenerator = d3.arc()
+    .innerRadius(0)
+    .outerRadius(50);
+  
+  // Create slice generator
+  let sliceGenerator = d3.pie();
+  
+  // Generate arc data and paths
+  let arcData = sliceGenerator(data);
+  let arcs = arcData.map((d) => arcGenerator(d));
+  
+  // Create pie chart
   d3.select('svg')
+    .selectAll('path')
+    .data(arcs)
+    .enter()
     .append('path')
-    .attr('d', arc)
-    .attr('fill', colors[idx]);
-});
+    .attr('d', d => d)
+    .attr('fill', (d, i) => colorScale(i));
