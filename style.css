@@ -204,3 +204,19 @@ dd {
   margin-block: 2em;
   overflow: visible;
 }
+.legend {
+  list-style: none;
+  padding: 0;
+}
+
+.legend li {
+  margin-bottom: 5px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  background-color: var(--color);
+}

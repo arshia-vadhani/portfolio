@@ -28,7 +28,14 @@ async function loadProjects() {
 
 // Load projects when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', loadProjects);
-  let data = [1, 2, 3, 4, 5, 5];
+let data = [
+    { value: 1, label: 'apples' },
+    { value: 2, label: 'oranges' },
+    { value: 3, label: 'mangos' },
+    { value: 4, label: 'pears' },
+    { value: 5, label: 'limes' },
+    { value: 5, label: 'cherries' },
+  ];
 
   // Create a color scale
   let colorScale = d3.scaleOrdinal(d3.schemeCategory10);
@@ -39,17 +46,21 @@ document.addEventListener('DOMContentLoaded', loadProjects);
     .outerRadius(50);
   
   // Create slice generator
-  let sliceGenerator = d3.pie();
+  let sliceGenerator = d3.pie().value((d) => d.value);
   
-  // Generate arc data and paths
-  let arcData = sliceGenerator(data);
-  let arcs = arcData.map((d) => arcGenerator(d));
-  
-  // Create pie chart
-  d3.select('svg')
-    .selectAll('path')
-    .data(arcs)
-    .enter()
-    .append('path')
-    .attr('d', d => d)
-    .attr('fill', (d, i) => colorScale(i));
+let arcData = sliceGenerator(data);
+let arcs = arcData.map((d) => arcGenerator(d));
+
+d3.select('svg')
+  .selectAll('path')
+  .data(arcs)
+  .enter()
+  .append('path')
+  .attr('d', d => d)
+  .attr('fill', (d, i) => colorScale(i));
+let legend = d3.select('.legend');
+data.forEach((d, idx) => {
+    legend.append('li')
+            .attr('style', `--color:${colorScale(idx)}`)
+            .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+});
