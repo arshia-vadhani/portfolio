@@ -246,4 +246,30 @@ dd {
     width: 100%;
   }
 }
+/* Smooth transitions for hover effects */
+path {
+  transition: opacity 300ms;
+}
+
+path:hover {
+  cursor: pointer;
+}
+
+/* Highlight hovered wedges */
+svg:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+/* Highlight selected wedge */
+.selected {
+  --color: oklch(60% 45% 0) !important;
+}
+
+.selected:is(path) {
+  fill: var(--color);
+}
+
+.selected:is(li) span.swatch {
+  background-color: var(--color);
+}
 
