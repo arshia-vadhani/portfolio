@@ -180,3 +180,16 @@ a:hover {
   font-family: inherit; /* Ensures it matches the font-family of the parent */
 }
 
+dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal-sized columns */
+  gap: 10px; /* Space between columns */
+}
+
+dt {
+  font-weight: bold; /* Make the term bold */
+}
+
+dd {
+  padding-left: 10px; /* Optional, for spacing */
+}
