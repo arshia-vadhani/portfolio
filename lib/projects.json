@@ -20,13 +20,13 @@
     },
     {
         "title": "Back end uber",
-        "year": "2023",
+        "year": "2022",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Used class objects to help build the back end of an uber app where riders could choose their own subscription type and the type car they wanted"
     },
     {
         "title": "Student Gradebook",
-        "year": "2024",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Helped use data analysis to update a student gradebook by calculating and averaging new grades"
     },

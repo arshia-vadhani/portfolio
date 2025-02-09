@@ -199,20 +199,29 @@ dt {
 dd {
   padding-left: 10px; /* Optional, for spacing */
 }
-#projects-pie-plot {
-  max-width: 20em;
-  margin-block: 2em;
-  overflow: visible;
+.chart-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 2em;
+  margin: 2em 0;
 }
+
+#projects-pie-plot {
+  flex-shrink: 0;
+  width: 300px;
+  height: 300px;
+}
+
 .legend {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1em;
   padding: 1em;
   border: 1px solid #ccc;
-  margin-top: 1em;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
-
 
 .legend-item {
   display: flex;
@@ -226,3 +235,15 @@ dd {
   background-color: var(--color);
   border-radius: 3px;
 }
+
+@media (max-width: 600px) {
+  .chart-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .legend {
+    width: 100%;
+  }
+}
+
