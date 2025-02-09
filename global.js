@@ -72,19 +72,19 @@ for (let p of pages) {
     });
   }
 
-//   // Adjust navigation links
-//   const isHomepage = document.body.classList.contains('home');
-//   document.querySelectorAll('nav a').forEach(link => {
-//     if (!isHomepage && link.getAttribute('href') === 'index.html') {
-//       link.setAttribute('href', './');
-//     }
-//   });
-// }
+  // Adjust navigation links
+  const isHomepage = document.body.classList.contains('home');
+  document.querySelectorAll('nav a').forEach(link => {
+    if (!isHomepage && link.getAttribute('href') === 'index.html') {
+      link.setAttribute('href', './');
+    }
+  });
+}
 
-// function applyTheme(theme) {
-//   document.documentElement.setAttribute('data-theme', theme);
-//   localStorage.setItem('theme', theme);
-// }
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}
 
 // // Ensure the script runs regardless of when DOMContentLoaded is fired
 // if (document.readyState === 'loading') {
@@ -106,18 +106,18 @@ for (let p of pages) {
 // }
 
 // export function renderProjects(projects, containerElement, headingLevel = 'h2') {
-//   containerElement.innerHTML = '';
-//   projects.forEach(project => {
-//     const article = document.createElement('article');
-//     const heading = document.createElement(headingLevel);
-//     heading.textContent = project.title;
-//     article.innerHTML = `
-//       ${heading.outerHTML}
-//       <img src="${project.image}" alt="${project.title}">
-//       <p>${project.description}</p>
-//     `;
-//     containerElement.appendChild(article);
-//   });
+// containerElement.innerHTML = '';
+// projects.forEach(project => {
+//   const article = document.createElement('article');
+//   const heading = document.createElement(headingLevel);
+//   heading.textContent = project.title;
+//   article.innerHTML = `
+//     ${heading.outerHTML}
+//     <img src="${project.image}" alt="${project.title}">
+//     <p>${project.description}</p>
+//   `;
+//   containerElement.appendChild(article);
+// });
 // }
 
 
