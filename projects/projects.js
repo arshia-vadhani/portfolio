@@ -18,3 +18,11 @@ async function loadProjects() {
 
 // Call the loadProjects function to fetch and render the data
 loadProjects();
+import { fetchJSON, renderProjects } from './global.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const projects = await fetchJSON('projects.json');
+    if (projects) {
+        renderProjects(projects);
+    }
+});
