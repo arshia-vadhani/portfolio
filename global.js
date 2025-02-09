@@ -224,3 +224,18 @@ select.addEventListener('input', function (event) {
 
   localStorage.setItem('colorScheme', newColorScheme);
 });
+
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+containerElement.innerHTML = '';
+projects.forEach(project => {
+  const article = document.createElement('article');
+  const heading = document.createElement(headingLevel);
+  heading.textContent = project.title;
+  article.innerHTML = `
+    ${heading.outerHTML}
+    <img src="${project.image}" alt="${project.title}">
+    <p>${project.description}</p>
+  `;
+  containerElement.appendChild(article);
+});
+}
