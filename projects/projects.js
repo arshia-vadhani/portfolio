@@ -12,6 +12,7 @@ let sliceGenerator = d3.pie().value(d => d.value);
 
 // Set up the colors for the pie chart
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
+
 // Function to create the pie chart and update the legend
 function createPieChart(data) {
     // Clear previous elements
@@ -68,7 +69,7 @@ function createPieChart(data) {
                 }
             });
     });
-    
+}
 
 // Helper function to update selection styles on both the pie chart and legend
 function updateSelection(svg, selectedIndex) {
@@ -113,7 +114,7 @@ searchInput.addEventListener('input', (event) => {
 
     // Filter the projects based on the pie selection if there's any
     if (selectedIndex !== -1) {
-        let selectedYear = data[selectedIndex]?.label;
+        let selectedYear = aggregatedData[selectedIndex]?.label;
         filteredProjects = filteredProjects.filter(project => project.year === selectedYear);
     }
 
@@ -125,6 +126,5 @@ searchInput.addEventListener('input', (event) => {
         (d) => d.year
     ).map(([year, count]) => ({ value: count, label: year }));
 
-    renderPieChart(filteredData); // Re-render pie chart with filtered data
+    createPieChart(filteredData); // Re-render pie chart with filtered data
 });
-
