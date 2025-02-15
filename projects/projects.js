@@ -12,7 +12,13 @@ let sliceGenerator = d3.pie().value(d => d.value);
 
 // Set up the colors for the pie chart
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
-
+let legend = d3.select('.legend');
+data.forEach((d, idx) => {
+    legend.append('li')
+        .attr('style', `--color:${colors(idx)}`) // set the style for the color
+        .attr('class', 'legend-item')            // add a class to each list item for better styling
+        .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`); // add swatch and text
+});
 // Function to create the pie chart and update the legend
 function createPieChart(data) {
     // Clear previous elements

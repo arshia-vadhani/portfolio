@@ -213,27 +213,26 @@ dd {
 }
 
 .legend {
-  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1em;
-  padding: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr)); /* Adjusts columns for responsiveness */
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 10px; /* Space between swatch and text */
+  font-size: 14px;
+  list-style: none;
 }
 
 .swatch {
-  width: 1em;
-  height: 1em;
-  background-color: var(--color);
-  border-radius: 3px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color);  /* Uses the color passed through style */
+  border-radius: 50%;               /* Makes it circular */
 }
 
 @media (max-width: 600px) {
