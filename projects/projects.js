@@ -12,13 +12,6 @@ let sliceGenerator = d3.pie().value(d => d.value);
 
 // Set up the colors for the pie chart
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
-let legend = d3.select('.legend');
-data.forEach((d, idx) => {
-    legend.append('li')
-        .attr('style', `--color:${colors(idx)}`) // set the style for the color
-        .attr('class', 'legend-item')            // add a class to each list item for better styling
-        .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`); // add swatch and text
-});
 // Function to create the pie chart and update the legend
 function createPieChart(data) {
     // Clear previous elements
@@ -51,21 +44,31 @@ function createPieChart(data) {
     });
 
     // Create the legend
-    const legend = d3.select('.legend');
+    let legend = d3.select('.legend');
     data.forEach((d, idx) => {
-        const legendItem = legend.append("li")
-            .attr("style", `--color:${colors(idx)}`)
+        legend.append('li')
+            .attr('style', `--color:${colors(idx)}`)
+            .attr('class', 'legend-item')
             .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
-            .style("cursor", "pointer");
-
-        // Add click event to the legend items
-        legendItem.on("click", () => {
-            selectedIndex = (selectedIndex === idx) ? -1 : idx;
-            updateSelection(svg, selectedIndex);
-            updateProjects(selectedIndex, data);
-        });
+            .on('click', function () {
+                selectedIndex = selectedIndex === idx ? -1 : idx;
+    
+                d3.selectAll('path')
+                  .attr('class', (_, i) => (i === selectedIndex ? 'selected' : ''));
+    
+                d3.selectAll('.legend li')
+                  .attr('class', (_, i) => (i === selectedIndex ? 'selected' : ''));
+    
+                if (selectedIndex === -1) {
+                    renderProjects(projects, projectsContainer, 'h2'); // Reset projects
+                } else {
+                    let selectedYear = data[selectedIndex]?.label;
+                    let filteredProjects = projects.filter(project => project.year === selectedYear);
+                    renderProjects(filteredProjects, projectsContainer, 'h2'); // Filter projects by year
+                }
+            });
     });
-}
+    
 
 // Helper function to update selection styles on both the pie chart and legend
 function updateSelection(svg, selectedIndex) {
@@ -103,21 +106,25 @@ let searchInput = document.querySelector('.searchBar');
 searchInput.addEventListener('input', (event) => {
     query = event.target.value.toLowerCase();
 
-    // Filter projects based on the search query
-    const filteredProjects = projects.filter((project) => {
-        return Object.values(project).join('\n').toLowerCase().includes(query);
+    let filteredProjects = projects.filter((project) => {
+        let values = Object.values(project).join('\n').toLowerCase();
+        return values.includes(query);
     });
 
-    // Render the filtered projects
+    // Filter the projects based on the pie selection if there's any
+    if (selectedIndex !== -1) {
+        let selectedYear = data[selectedIndex]?.label;
+        filteredProjects = filteredProjects.filter(project => project.year === selectedYear);
+    }
+
     renderProjects(filteredProjects, projectsContainer, 'h2');
 
-    // Generate new aggregated data based on the filtered projects
-    const filteredData = d3.rollups(
+    let filteredData = d3.rollups(
         filteredProjects,
         (v) => v.length,
         (d) => d.year
     ).map(([year, count]) => ({ value: count, label: year }));
 
-    // Update the pie chart with the new data
-    createPieChart(filteredData);
+    renderPieChart(filteredData); // Re-render pie chart with filtered data
 });
+
