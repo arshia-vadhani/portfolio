@@ -89,25 +89,12 @@ function createScatterplot() {
     .attr('fill', 'steelblue');  // Fill color for the circles
   
   
-  dots
-    .selectAll('circle')
+    dots
     .on('mouseenter', (event, commit) => {
-    console.log('Hovered commit:', d);
-    console.log('Author:', d.author);
-    console.log('Time:', d.time);
-    console.log('Lines Edited:', d.totalLines);
       updateTooltipContent(commit);
-      d3.select(event.target)  // Select the hovered dot
-        .transition()  // Smooth transition
-        .duration(300)
-        .attr('r', 8);  // Increase radius to 8 on hover
     })
-    .on('mouseleave', (event) => {
+    .on('mouseleave', () => {
       updateTooltipContent({}); // Clear tooltip content
-      d3.select(event.target)  // Select the hovered dot
-        .transition()  // Smooth transition
-        .duration(300)
-        .attr('r', 5);  // Reset radius to 5
     });
     
   const margin = { top: 10, right: 10, bottom: 30, left: 20 };
@@ -195,17 +182,30 @@ function displayStats() {
 
 
 function updateTooltipContent(commit) {
-    const link = document.getElementById('commit-link');
-    const date = document.getElementById('commit-date');
+  const link = document.getElementById('commit-link');
+  const date = document.getElementById('commit-date');
+  const time = document.getElementById('commit-time');
+  const author = document.getElementById('commit-author');
+  const lines = document.getElementById('commit-lines');
 
-    if (Object.keys(commit).length === 0) return;
+  // Check if commit data exists, if not, exit the function
+  if (Object.keys(commit).length === 0) return;
 
-    link.href = commit.url;
-    link.textContent = commit.id;
-    date.textContent = commit.datetime?.toLocaleString('en', {
-      dateStyle: 'full',
-    });
+  // Update the tooltip content
+  link.href = commit.url;
+  link.textContent = commit.id;
+  
+  // Format and display commit date
+  date.textContent = commit.datetime?.toLocaleString('en', {
+    dateStyle: 'full',
+  });
+
+  // Display time, author, and lines edited
+  time.textContent = commit.datetime?.toLocaleTimeString();
+  author.textContent = commit.author;
+  lines.textContent = commit.totalLines;
 }
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData(); // Wait for the data to load before proceeding
