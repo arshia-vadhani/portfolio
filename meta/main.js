@@ -200,6 +200,8 @@ function updateTooltipContent(commit) {
     // Update lines edited
    
     lines.textContent = commit.totalLines;
+    const tooltip = document.getElementById('commit-tooltip');
+    tooltip.hidden = !isVisible;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
