@@ -25,6 +25,16 @@ async function loadData() {
 
 }
 
+function updateSelectionCount() {
+  const selectedCommits = brushSelection
+    ? commits.filter(isCommitSelected)
+    : [];
+
+  const countElement = document.getElementById('selection-count');
+  countElement.textContent = `${selectedCommits.length || 'No'} commits selected`;
+
+  return selectedCommits;
+}
 
 function processCommits() {
     commits = d3.groups(data, (d) => d.commit)
@@ -177,40 +187,41 @@ function processCommits() {
     brushSelector(brushLayer);
   }
   
-  function brushSelector() {
-    const svg = d3.select('svg');
   
-    // Create brush and listen for events
-    const brush = d3.brush()
-      .on('start brush end', brushed);
-  
-    svg.call(brush);
-  
-    // Step 5: Ensure dots appear above the overlay
-    svg.selectAll('.dots, .overlay ~ *').raise();
-  }
-  
-  // Step 6: Handle brushing events
-  function brushed(event) {
-    brushSelection = event.selection;
-    updateSelection();
-  }
-  
-  // Step 7: Check if a commit is selected
-  function isCommitSelected(commit) {
-    if (!brushSelection) return false;
-  
-    const [[x0, y0], [x1, y1]] = brushSelection;
-    const cx = xScale(commit.date);
-    const cy = yScale(commit.totalLines);
-  
-    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
-  }
-  
-  // Step 8: Update selection visualization
-  function updateSelection() {
-    d3.selectAll('circle').classed('selected', d => isCommitSelected(d));
-  }
+function brushSelector(brushLayer) {
+  const svg = d3.select('svg');
+
+  // Create brush and listen for events
+  const brush = d3.brush()
+    .on('start brush end', brushed);
+
+  svg.call(brush);
+
+  // Ensure dots appear above the overlay
+  svg.selectAll('.dots, .overlay ~ *').raise();
+}
+
+// Handle brushing events
+function brushed(event) {
+  brushSelection = event.selection;
+  updateSelection();
+}
+
+// Check if a commit is selected
+function isCommitSelected(commit) {
+  if (!brushSelection) return false;
+
+  const [[x0, y0], [x1, y1]] = brushSelection;
+  const cx = xScale(commit.datetime);
+  const cy = yScale(commit.hourFrac);
+
+  return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+}
+
+// Update selection visualization
+function updateSelection() {
+  d3.selectAll('circle').classed('selected', (d) => isCommitSelected(d));
+}
    
 
 
@@ -265,5 +276,6 @@ function displayStats() {
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData(); // Wait for the data to load before proceeding
     createScatterplot();
+    brushSelector();
   });
 
