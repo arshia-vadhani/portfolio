@@ -184,22 +184,49 @@ function processCommits() {
     
     // Create gridlines as an axis with no labels and full-width ticks
     gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
-    brushSelector(brushLayer);
+    svg.call(
+      d3.brush()
+        .on('start brush end', brushed)
+        .extent([
+          [0, 0],
+          [width, height],
+        ])
+    );
+  
+    // Ensure dots appear above the brush overlay
+    svg.selectAll('.dots, .overlay ~ *').raise();
   }
   
   
-function brushSelector(brushLayer) {
-  const svg = d3.select('svg');
 
-  // Create brush and listen for events
-  const brush = d3.brush()
-    .on('start brush end', brushed);
 
-  svg.call(brush);
 
-  // Ensure dots appear above the overlay
-  svg.selectAll('.dots, .overlay ~ *').raise();
+
+// Handle brushing events
+function brushed(event) {
+  brushSelection = event.selection;
+  updateSelectionCount();
+  updateSelection();
+  updateLanguageBreakdown();
 }
+
+// Check if a commit is selected
+function isCommitSelected(commit) {
+  if (!brushSelection) return false;
+
+  const [[x0, y0], [x1, y1]] = brushSelection;
+  const cx = xScale(commit.datetime);
+  const cy = yScale(commit.hourFrac);
+
+  return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+}
+
+// Update selection visualization
+function updateSelection() {
+  d3.selectAll('circle').classed('selected', (d) => isCommitSelected(d));
+}
+   
+
 function updateLanguageBreakdown() {
   const selectedCommits = brushSelection
     ? commits.filter(isCommitSelected)
@@ -236,34 +263,6 @@ function updateLanguageBreakdown() {
 
   return breakdown;
 }
-
-
-// Handle brushing events
-function brushed(event) {
-  brushSelection = event.selection;
-  updateSelectionCount();
-  updateSelection();
-  updateLanguageBreakdown();
-}
-
-// Check if a commit is selected
-function isCommitSelected(commit) {
-  if (!brushSelection) return false;
-
-  const [[x0, y0], [x1, y1]] = brushSelection;
-  const cx = xScale(commit.datetime);
-  const cy = yScale(commit.hourFrac);
-
-  return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
-}
-
-// Update selection visualization
-function updateSelection() {
-  d3.selectAll('circle').classed('selected', (d) => isCommitSelected(d));
-}
-   
-
-
 
 function displayStats() {
 // Process commits first
