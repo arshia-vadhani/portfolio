@@ -277,4 +277,46 @@ path {
   opacity: 0.5;   /* Reduce opacity for a more subtle effect */
   stroke-width: 1;  /* Thin line for the gridlines */
 }
+/* Styling for dl.info (Grid Layout) */
+dl.info {
+  display: grid;
+  grid-template-columns: auto 1fr;  /* Labels (dt) in the first column, values (dd) in the second */
+  grid-gap: 5px;  /* Space between columns */
+  margin: 0;  /* Remove default margins */
+}
 
+dl.info dt {
+  font-weight: normal;  /* Make the labels less prominent */
+  color: #555;  /* Lighter color for labels */
+}
+
+dl.info dd {
+  margin: 0;  /* Remove default margins */
+  color: #333;  /* Darker color for values */
+  font-weight: bold;  /* Make the values stand out */
+}
+
+/* Tooltip styling */
+.tooltip {
+  position: fixed;  /* Make it stay fixed on the screen */
+  top: 1em;  /* Position it 1em from the top of the viewport */
+  left: 1em;  /* Position it 1em from the left of the viewport */
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  display: none;  /* Hidden by default */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  pointer-events: none; /* Avoid interacting with the tooltip */
+}
+
+
+circle {
+  transition: 200ms;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+circle:hover {
+  transform: scale(1.5);
+}

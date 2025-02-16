@@ -89,7 +89,26 @@ function createScatterplot() {
     .attr('cy', (d) => yScale(d.hourFrac))  // Y position based on hour of the day
     .attr('r', 5)  // Radius of the circle
     .attr('fill', 'steelblue');  // Fill color for the circles
+  
+  
+  dots
+    .selectAll('circle')
+    .on('mouseenter', (event, commit) => {
+      updateTooltipContent(commit);
+      d3.select(event.target)  // Select the hovered dot
+        .transition()  // Smooth transition
+        .duration(300)
+        .attr('r', 8);  // Increase radius to 8 on hover
+    })
+    .on('mouseleave', (event) => {
+      updateTooltipContent({}); // Clear tooltip content
+      d3.select(event.target)  // Select the hovered dot
+        .transition()  // Smooth transition
+        .duration(300)
+        .attr('r', 5);  // Reset radius to 5
+    });
 
+    
   const margin = { top: 10, right: 10, bottom: 30, left: 20 };
   const usableArea = {
     top: margin.top,
@@ -173,7 +192,21 @@ function displayStats() {
         dl.append('dd').text(avgDepth.toFixed(2)); // Display the average depth
 }
 
-  document.addEventListener('DOMContentLoaded', async () => {
+
+function updateTooltipContent(commit) {
+    const link = document.getElementById('commit-link');
+    const date = document.getElementById('commit-date');
+
+    if (Object.keys(commit).length === 0) return;
+
+    link.href = commit.url;
+    link.textContent = commit.id;
+    date.textContent = commit.datetime?.toLocaleString('en', {
+      dateStyle: 'full',
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
     await loadData(); // Wait for the data to load before proceeding
     createScatterplot();
   });
