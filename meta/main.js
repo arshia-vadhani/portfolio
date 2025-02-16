@@ -14,6 +14,8 @@ async function loadData() {
     date: new Date(row.date + 'T00:00' + row.timezone), // Convert date and timezone
     datetime: new Date(row.datetime), // Convert datetime
   }));
+  console.log(data);
+  console.log(commits);
   processCommits();  // Ensure commits are populated before displaying stats
   displayStats();
   
