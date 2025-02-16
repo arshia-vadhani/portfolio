@@ -1,3 +1,6 @@
+const width = 1000;
+const height = 600
+
 let data = [];
 let commits = d3.groups(data, (d) => d.commit);
 
@@ -11,7 +14,12 @@ async function loadData() {
     date: new Date(row.date + 'T00:00' + row.timezone), // Convert date and timezone
     datetime: new Date(row.datetime), // Convert datetime
   }));
+  processCommits();  // Ensure commits are populated before displaying stats
   displayStats();
+  
+  // Call the createScatterplot function after data is loaded
+  createScatterplot();
+
 
 }
 
@@ -33,11 +41,15 @@ function processCommits() {
           hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
           totalLines: lines.length,
         };
+
+
   
         Object.defineProperty(ret, 'lines', {
           value: lines,
-          // What other options do we need to set?
-          // Hint: look up configurable, writable, and enumerable
+          writable: false,
+          enumerable: false,
+          configurable: false,
+
         });
   
         return ret;
@@ -45,22 +57,56 @@ function processCommits() {
 
   }
   
+function createScatterplot() {
+// Create the SVG element
+  const svg = d3
+    .select('#chart')
+    .append('svg')
+    .attr('viewBox', `0 0 ${width} ${height}`)
+    .style('overflow', 'visible');
 
-  function displayStats() {
-    // Process commits first
+// Create the scales
+  const xScale = d3
+    .scaleTime()
+    .domain(d3.extent(commits, (d) => d.datetime))
+    .range([0, width])
+    .nice();
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, 24]) // From 0 to 24 hours of the day
+    .range([height, 0]);
+
+// Draw the scatterplot (dots)
+  const dots = svg.append('g').attr('class', 'dots');
+
+  dots
+    .selectAll('circle')
+    .data(commits)
+    .join('circle')
+    .attr('cx', (d) => xScale(d.datetime))  // X position based on datetime
+    .attr('cy', (d) => yScale(d.hourFrac))  // Y position based on hour of the day
+    .attr('r', 5)  // Radius of the circle
+    .attr('fill', 'steelblue');  // Fill color for the circles
+}
+
+
+
+function displayStats() {
+// Process commits first
     processCommits();
-  
+
     // Create the dl element
     const dl = d3.select('#stats').append('dl').attr('class', 'stats');
-  
+
     // Add total LOC
     dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
     dl.append('dd').text(data.length);
-  
+
     // Add total commits
     dl.append('dt').text('Total commits');
     dl.append('dd').text(commits.length);
-  
+
     // Add more stats as needed...
     const numFiles = d3.group(data, (d) => d.file).size;
     dl.append('dt').text('Number of files in the codebase');
@@ -77,15 +123,15 @@ function processCommits() {
         data,
         (v) => d3.mean(v, (d) => d.length), // Calculate average length for each file
         (d) => d.file
-      );
-      const avgFileLength = d3.mean(fileLengths, (d) => d[1]);
-      dl.append('dt').text('Average file length (lines)');
-      dl.append('dd').text(avgFileLength.toFixed(2)); // Display the average file length
-    
-      // Calculate the average depth (average depth of all files)
-      const avgDepth = d3.mean(data, (d) => d.depth); // Average depth across the dataset
-      dl.append('dt').text('Average depth');
-      dl.append('dd').text(avgDepth.toFixed(2)); // Display the average depth
+        );
+        const avgFileLength = d3.mean(fileLengths, (d) => d[1]);
+        dl.append('dt').text('Average file length (lines)');
+        dl.append('dd').text(avgFileLength.toFixed(2)); // Display the average file length
+
+        // Calculate the average depth (average depth of all files)
+        const avgDepth = d3.mean(data, (d) => d.depth); // Average depth across the dataset
+        dl.append('dt').text('Average depth');
+        dl.append('dd').text(avgDepth.toFixed(2)); // Display the average depth
 }
 
   document.addEventListener('DOMContentLoaded', async () => {
