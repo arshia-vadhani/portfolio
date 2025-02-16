@@ -128,4 +128,3 @@ searchInput.addEventListener('input', (event) => {
 
     createPieChart(filteredData); // Re-render pie chart with filtered data
 });
-//idk
