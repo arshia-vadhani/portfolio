@@ -146,7 +146,7 @@ function createScatterplot() {
 
 // Create gridlines as an axis with no labels and full-width ticks
 gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
-}
+
 
 
 
@@ -196,26 +196,14 @@ function displayStats() {
 function updateTooltipContent(commit) {
   const link = document.getElementById('commit-link');
   const date = document.getElementById('commit-date');
-  const time = document.getElementById('commit-time');
-  const author = document.getElementById('commit-author');
-  const lines = document.getElementById('commit-lines');
 
-  // Check if commit data exists, if not, exit the function
   if (Object.keys(commit).length === 0) return;
 
-  // Update the tooltip content
   link.href = commit.url;
   link.textContent = commit.id;
-  
-  // Format and display commit date
   date.textContent = commit.datetime?.toLocaleString('en', {
     dateStyle: 'full',
   });
-
-  // Display time, author, and lines edited
-  time.textContent = commit.datetime?.toLocaleTimeString();
-  author.textContent = commit.author;
-  lines.textContent = commit.totalLines;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
