@@ -184,21 +184,16 @@ function processCommits() {
     
     // Create gridlines as an axis with no labels and full-width ticks
     gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
-    svg.call(
-      d3.brush()
-        .on('start brush end', brushed)
-        .extent([
-          [0, 0],
-          [width, height],
-        ])
-    );
-  
+    brushSelector()
     // Ensure dots appear above the brush overlay
     svg.selectAll('.dots, .overlay ~ *').raise();
   }
   
   
-
+  function brushSelector() {
+    const svg = document.querySelector('svg');
+    d3.select(svg).call(d3.brush());
+  }
 
 
 
