@@ -324,3 +324,17 @@ circle {
 circle:hover {
   transform: scale(1.5);
 }
+@keyframes marching-ants {
+  to {
+    stroke-dashoffset: -8; /* Moves the dashes over time */
+  }
+}
+
+.selection {
+  fill-opacity: 0.1;   /* Lightly filled selection */
+  stroke: black;       /* Black border */
+  stroke-opacity: 0.7; /* Slightly transparent stroke */
+  stroke-dasharray: 5 3; /* Dashed stroke for "marching ants" effect */
+  animation: marching-ants 2s linear infinite; /* Infinite looping animation */
+}
+

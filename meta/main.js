@@ -176,10 +176,37 @@ function processCommits() {
     brushSelector(brushLayer);
   }
   
-  function brushSelector() {
-    const svg = document.querySelector('svg');
-    d3.select(svg).call(d3.brush());
-  }    
+  function brushSelector(brushLayer, dots, xScale, yScale) {
+    const brush = d3.brush()
+        .extent([[0, 0], [width, height]])
+        .on('brush', brushed)
+        .on('end', brushEnded);
+
+    brushLayer.call(brush);
+
+    // Raise dots so they appear above the brush overlay
+    dots.raise();
+
+    function brushed(event) {
+        const selection = event.selection;
+        if (!selection) return;
+
+        dots.selectAll('circle').classed('selected', (d) => {
+            const [x0, y0] = selection[0];
+            const [x1, y1] = selection[1];
+            const cx = xScale(d.datetime);
+            const cy = yScale(d.hourFrac);
+            return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+        });
+    }
+
+    function brushEnded(event) {
+        if (!event.selection) {
+            dots.selectAll('circle').classed('selected', false);
+        }
+    }
+}
+   
 
 
 
