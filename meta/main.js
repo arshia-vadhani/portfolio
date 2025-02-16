@@ -112,6 +112,7 @@ function processCommits() {
   .domain([minLines, maxLines])
   .range([2, 30]);
     const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
+    const brushLayer = svg.append('g').attr('class', 'brush');
     const dots = svg.append('g').attr('class', 'dots');
   
     dots
@@ -172,9 +173,13 @@ function processCommits() {
     
     // Create gridlines as an axis with no labels and full-width ticks
     gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
+    brushSelector(brushLayer);
   }
   
-    
+  function brushSelector() {
+    const svg = document.querySelector('svg');
+    d3.select(svg).call(d3.brush());
+  }    
 
 
 
