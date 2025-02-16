@@ -90,15 +90,24 @@ function createScatterplot() {
     .attr('fill', 'steelblue');  // Fill color for the circles
   
   
-    dots
+  dots
+    .selectAll('circle')
     .on('mouseenter', (event, commit) => {
       updateTooltipContent(commit);
-      updateTooltipVisibility(true);
+      d3.select(event.target)  // Select the hovered dot
+        .transition()  // Smooth transition
+        .duration(300)
+        .attr('r', 8);  // Increase radius to 8 on hover
     })
-    .on('mouseleave', () => {
-      updateTooltipContent({});
-      updateTooltipVisibility(false);
+    .on('mouseleave', (event) => {
+      updateTooltipContent({}); // Clear tooltip content
+      d3.select(event.target)  // Select the hovered dot
+        .transition()  // Smooth transition
+        .duration(300)
+        .attr('r', 5);  // Reset radius to 5
     });
+
+    
   const margin = { top: 10, right: 10, bottom: 30, left: 20 };
   const usableArea = {
     top: margin.top,
@@ -186,8 +195,7 @@ function displayStats() {
 function updateTooltipContent(commit) {
     const link = document.getElementById('commit-link');
     const date = document.getElementById('commit-date');
-    const author = document.getElementById('commit-author');
-    const lines = document.getElementById('commit-lines');
+
     if (Object.keys(commit).length === 0) return;
 
     link.href = commit.url;
@@ -195,13 +203,6 @@ function updateTooltipContent(commit) {
     date.textContent = commit.datetime?.toLocaleString('en', {
       dateStyle: 'full',
     });
-    author.textContent = commit.author;
-
-    // Update lines edited
-   
-    lines.textContent = commit.totalLines;
-    const tooltip = document.getElementById('commit-tooltip');
-    tooltip.hidden = !isVisible;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

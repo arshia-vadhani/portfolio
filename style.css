@@ -283,13 +283,8 @@ dl.info {
   grid-template-columns: auto 1fr;  /* Labels (dt) in the first column, values (dd) in the second */
   grid-gap: 5px;  /* Space between columns */
   margin: 0;  /* Remove default margins */
-  transition-duration: 500ms;  /* Smooth transition duration */
-  transition-property: opacity, visibility;
 }
-dl.info[hidden]:not(:hover, :focus-within) {
-  opacity: 0;
-  visibility: hidden;
-}
+
 dl.info dt {
   font-weight: normal;  /* Make the labels less prominent */
   color: #555;  /* Lighter color for labels */
@@ -325,4 +320,3 @@ circle {
 circle:hover {
   transform: scale(1.5);
 }
-
