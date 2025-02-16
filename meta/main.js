@@ -93,6 +93,8 @@ function createScatterplot() {
     .selectAll('circle')
     .on('mouseenter', (event, commit) => {
       updateTooltipContent(commit);
+      updateTooltipVisibility(true);
+      updateTooltipPosition(event);
       d3.select(event.target)  // Select the hovered dot
         .transition()  // Smooth transition
         .duration(300)
@@ -100,6 +102,7 @@ function createScatterplot() {
     })
     .on('mouseleave', (event) => {
       updateTooltipContent({}); // Clear tooltip content
+      updateTooltipVisibility(false);
       d3.select(event.target)  // Select the hovered dot
         .transition()  // Smooth transition
         .duration(300)
@@ -204,6 +207,16 @@ function updateTooltipContent(commit) {
   date.textContent = commit.datetime?.toLocaleString('en', {
     dateStyle: 'full',
   });
+}
+
+function updateTooltipVisibility(isVisible) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.hidden = !isVisible;
+}
+function updateTooltipPosition(event) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.style.left = `${event.clientX}px`;
+  tooltip.style.top = `${event.clientY}px`;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

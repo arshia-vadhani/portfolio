@@ -282,9 +282,14 @@ dl.info {
   display: grid;
   grid-template-columns: auto 1fr;  /* Labels (dt) in the first column, values (dd) in the second */
   grid-gap: 5px;  /* Space between columns */
-  margin: 0;  /* Remove default margins */
+  margin: 0;
+  transition-duration: 500ms;
+  transition-property: opacity, visibility;  /* Remove default margins */
 }
-
+dl.info[hidden]:not(:hover, :focus-within) {
+  opacity: 0;
+  visibility: hidden;
+}
 dl.info dt {
   font-weight: normal;  /* Make the labels less prominent */
   color: #555;  /* Lighter color for labels */
