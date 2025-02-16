@@ -69,37 +69,13 @@ function processCommits() {
     const xScale = d3
       .scaleTime()
       .domain(d3.extent(commits, (d) => d.datetime))
-      .range([usableArea.left, usableArea.right])
+      .range([0, width])
       .nice();
   
     const yScale = d3
       .scaleLinear()
-      .domain([0, 24])
-      .range([usableArea.bottom, usableArea.top]);
-  
-    const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3
-      .axisLeft(yScale)
-      .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
-  
-    // Draw axes
-    svg
-      .append('g')
-      .attr('transform', `translate(0, ${usableArea.bottom})`)
-      .call(xAxis);
-  
-    svg
-      .append('g')
-      .attr('transform', `translate(${usableArea.left}, 0)`)
-      .call(yAxis);
-  
-    // Draw gridlines
-    const gridlines = svg
-      .append('g')
-      .attr('class', 'gridlines')
-      .attr('transform', `translate(${usableArea.left}, 0)`);
-  
-    gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
+      .domain([0, 24]) // From 0 to 24 hours of the day
+      .range([height, 0]);
   
     // Draw the scatterplot (dots)
     const dots = svg.append('g').attr('class', 'dots');
@@ -108,29 +84,41 @@ function processCommits() {
       .selectAll('circle')
       .data(commits)
       .join('circle')
-      .attr('cx', (d) => xScale(d.datetime))
-      .attr('cy', (d) => yScale(d.hourFrac))
-      .attr('r', 5)
-      .attr('fill', 'steelblue')
-      .on('mouseenter', (event, commit) => {
-        updateTooltipContent(commit);
-        updateTooltipVisibility(true);
-        updateTooltipPosition(event);
-        d3.select(event.target)
-          .transition()
-          .duration(300)
-          .attr('r', 8);
-      })
-      .on('mouseleave', (event) => {
-        updateTooltipContent({});
-        updateTooltipVisibility(false);
-        d3.select(event.target)
-          .transition()
-          .duration(300)
-          .attr('r', 5);
-      });
+      .attr('cx', (d) => xScale(d.datetime))  // X position based on datetime
+      .attr('cy', (d) => yScale(d.hourFrac))  // Y position based on hour of the day
+      .attr('r', 5)  // Radius of the circle
+      .attr('fill', 'steelblue');  // Fill color for the circles
+  
+    const margin = { top: 10, right: 10, bottom: 30, left: 20 };
+    const usableArea = {
+      top: margin.top,
+      right: width - margin.right,
+      bottom: height - margin.bottom,
+      left: margin.left,
+      width: width - margin.left - margin.right,
+      height: height - margin.top - margin.bottom,
+    };
+    
+    // Update scales with new ranges
+    xScale.range([usableArea.left, usableArea.right]);
+    yScale.range([usableArea.bottom, usableArea.top]);
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+  
+    // Add X axis
+    svg
+      .append('g')
+      .attr('transform', `translate(0, ${usableArea.bottom})`)
+      .call(xAxis);
+  
+    // Add Y axis
+    svg
+      .append('g')
+      .attr('transform', `translate(${usableArea.left}, 0)`)
+      .call(yAxis);
   }
   
+    
 
 
 
