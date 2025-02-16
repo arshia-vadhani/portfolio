@@ -286,10 +286,7 @@ dl.info {
   transition-duration: 500ms;
   transition-property: opacity, visibility;  /* Remove default margins */
 }
-dl.info[hidden]:not(:hover, :focus-within) {
-  opacity: 0;
-  visibility: hidden;
-}
+
 dl.info dt {
   font-weight: normal;  /* Make the labels less prominent */
   color: #555;  /* Lighter color for labels */
@@ -321,6 +318,9 @@ dl.info dd {
   transition: transform 0.3s ease;  /* Smooth scaling */
   transform-origin: center center;  /* Scale from the center */
   transform-box: fill-box;  /* Ensure scaling is applied within the box */
+}
+circle:hover {
+  transform: scale(1.5);
 }
 
 /* Optionally: Tooltip style for better visibility */
