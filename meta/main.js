@@ -93,6 +93,7 @@ function createScatterplot() {
   dots
     .selectAll('circle')
     .on('mouseenter', (event, commit) => {
+      console.log('Hovered commit:', commit);
       updateTooltipContent(commit);
       d3.select(event.target)  // Select the hovered dot
         .transition()  // Smooth transition
