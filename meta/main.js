@@ -1,6 +1,7 @@
 const width = 1000;
 const height = 600
-
+const xScale = d3.scaleTime();
+const yScale = d3.scaleLinear();
 let data = [];
 let commits = d3.groups(data, (d) => d.commit);
 
