@@ -338,3 +338,6 @@ circle:hover {
   animation: marching-ants 2s linear infinite; /* Infinite looping animation */
 }
 
+circle.selected {
+  fill: #ff6b6b;
+}
