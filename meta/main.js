@@ -197,6 +197,7 @@ function displayStats() {
 
 
 function updateTooltipContent(commit) {
+  console.log('Update Tooltip Content:', commit);
   const link = document.getElementById('commit-link');
   const date = document.getElementById('commit-date');
 
