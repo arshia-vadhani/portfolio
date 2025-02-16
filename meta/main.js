@@ -77,6 +77,13 @@ function createScatterplot() {
     .domain([0, 24]) // From 0 to 24 hours of the day
     .range([height, 0]);
 
+  xScale.range([usableArea.left, usableArea.right]);
+  yScale.range([usableArea.bottom, usableArea.top]);
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3
+  .axisLeft(yScale)
+  .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
+
 // Draw the scatterplot (dots)
   const dots = svg.append('g').attr('class', 'dots');
 
@@ -123,12 +130,7 @@ function createScatterplot() {
   };
   
   // Update scales with new ranges
-  xScale.range([usableArea.left, usableArea.right]);
-  yScale.range([usableArea.bottom, usableArea.top]);
-  const xAxis = d3.axisBottom(xScale);
-  const yAxis = d3
-  .axisLeft(yScale)
-  .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
+
 
 // Add X axis
   svg
