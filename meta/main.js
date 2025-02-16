@@ -87,6 +87,34 @@ function createScatterplot() {
     .attr('cy', (d) => yScale(d.hourFrac))  // Y position based on hour of the day
     .attr('r', 5)  // Radius of the circle
     .attr('fill', 'steelblue');  // Fill color for the circles
+
+  const margin = { top: 10, right: 10, bottom: 30, left: 20 };
+  const usableArea = {
+    top: margin.top,
+    right: width - margin.right,
+    bottom: height - margin.bottom,
+    left: margin.left,
+    width: width - margin.left - margin.right,
+    height: height - margin.top - margin.bottom,
+  };
+  
+  // Update scales with new ranges
+  xScale.range([usableArea.left, usableArea.right]);
+  yScale.range([usableArea.bottom, usableArea.top]);
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3.axisLeft(yScale);
+
+// Add X axis
+  svg
+  .append('g')
+  .attr('transform', `translate(0, ${usableArea.bottom})`)
+  .call(xAxis);
+
+// Add Y axis
+  svg
+  .append('g')
+  .attr('transform', `translate(${usableArea.left}, 0)`)
+  .call(yAxis);
 }
 
 
