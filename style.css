@@ -320,3 +320,42 @@ circle {
 circle:hover {
   transform: scale(1.5);
 }
+
+/* Tooltip styling */
+#commit-tooltip {
+  display: none;  /* Initially hidden */
+  position: fixed;  /* Fixed position on the screen */
+  top: 1em;
+  left: 1em;
+  background-color: rgba(255, 255, 255, 0.9);  /* White with slight transparency */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow for elevation effect */
+  border-radius: 8px;  /* Rounded corners */
+  padding: 10px;  /* Space inside the tooltip */
+  max-width: 200px;  /* Limit width */
+  font-size: 14px;  /* Smaller font size */
+  line-height: 1.4;  /* Line height for readability */
+  z-index: 10;  /* Ensure the tooltip is above other elements */
+  
+  /* Optional: frosted glass effect */
+  backdrop-filter: blur(5px);  /* Apply a blur effect to the background */
+}
+
+/* Styling for the dt and dd elements inside the tooltip */
+#commit-tooltip dt {
+  font-weight: bold;  /* Make the labels bold */
+  margin-bottom: 5px;  /* Add some space below the labels */
+}
+
+#commit-tooltip dd {
+  margin: 0;  /* Remove default margin */
+  margin-bottom: 10px;  /* Space between each data point */
+}
+
+#commit-tooltip a {
+  text-decoration: none;  /* Remove underline from the commit link */
+  color: #007bff;  /* Give it a blue color */
+}
+
+#commit-tooltip a:hover {
+  text-decoration: underline;  /* Add underline on hover */
+}
