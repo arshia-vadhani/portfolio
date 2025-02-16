@@ -14,6 +14,7 @@ async function loadData() {
     date: new Date(row.date + 'T00:00' + row.timezone), // Convert date and timezone
     datetime: new Date(row.datetime), // Convert datetime
   }));
+
   processCommits();  // Ensure commits are populated before displaying stats
   displayStats();
   
@@ -92,11 +93,12 @@ function createScatterplot() {
     dots
     .on('mouseenter', (event, commit) => {
       updateTooltipContent(commit);
+      updateTooltipVisibility(true);
     })
     .on('mouseleave', () => {
-      updateTooltipContent({}); // Clear tooltip content
+      updateTooltipContent({});
+      updateTooltipVisibility(false);
     });
-    
   const margin = { top: 10, right: 10, bottom: 30, left: 20 };
   const usableArea = {
     top: margin.top,
@@ -182,30 +184,18 @@ function displayStats() {
 
 
 function updateTooltipContent(commit) {
-  const link = document.getElementById('commit-link');
-  const date = document.getElementById('commit-date');
-  const time = document.getElementById('commit-time');
-  const author = document.getElementById('commit-author');
-  const lines = document.getElementById('commit-lines');
+    const link = document.getElementById('commit-link');
+    const date = document.getElementById('commit-date');
 
-  // Check if commit data exists, if not, exit the function
-  if (Object.keys(commit).length === 0) return;
+    if (Object.keys(commit).length === 0) return;
 
-  // Update the tooltip content
-  link.href = commit.url;
-  link.textContent = commit.id;
-  
-  // Format and display commit date
-  date.textContent = commit.datetime?.toLocaleString('en', {
-    dateStyle: 'full',
-  });
-
-  // Display time, author, and lines edited
-  time.textContent = commit.datetime?.toLocaleTimeString();
-  author.textContent = commit.author;
-  lines.textContent = commit.totalLines;
+    link.href = commit.url;
+    link.textContent = commit.id;
+    date.textContent = commit.datetime?.toLocaleString('en', {
+      dateStyle: 'full',
+    });
+    link.textContent = commit.author
 }
-
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData(); // Wait for the data to load before proceeding
