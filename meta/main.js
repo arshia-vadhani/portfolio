@@ -186,7 +186,8 @@ function displayStats() {
 function updateTooltipContent(commit) {
     const link = document.getElementById('commit-link');
     const date = document.getElementById('commit-date');
-
+    const author = document.getElementById('commit-author');
+    const lines = document.getElementById('commit-lines');
     if (Object.keys(commit).length === 0) return;
 
     link.href = commit.url;
@@ -194,7 +195,11 @@ function updateTooltipContent(commit) {
     date.textContent = commit.datetime?.toLocaleString('en', {
       dateStyle: 'full',
     });
-    link.textContent = commit.author
+    author.textContent = commit.author;
+
+    // Update lines edited
+   
+    lines.textContent = commit.totalLines;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
