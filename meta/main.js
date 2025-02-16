@@ -18,15 +18,14 @@ async function loadData() {
   displayStats();
   
   // Call the createScatterplot function after data is loaded
-  createScatterplot();
+
 
 
 }
 
 
 function processCommits() {
-    commits = d3
-      .groups(data, (d) => d.commit)
+    commits = d3.groups(data, (d) => d.commit)
       .map(([commit, lines]) => {
         let first = lines[0];
         let { author, date, time, timezone, datetime } = first;
@@ -136,5 +135,6 @@ function displayStats() {
 
   document.addEventListener('DOMContentLoaded', async () => {
     await loadData(); // Wait for the data to load before proceeding
+    createScatterplot();
   });
 
