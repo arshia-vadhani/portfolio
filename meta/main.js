@@ -1,7 +1,6 @@
 const width = 1000;
 const height = 600
-const xScale = d3.scaleTime();
-const yScale = d3.scaleLinear();
+
 let data = [];
 let commits = d3.groups(data, (d) => d.commit);
 
@@ -116,7 +115,7 @@ function createScatterplot() {
         .duration(300)
         .attr('r', 5);  // Reset radius to 5
     });
-}
+
     
 
     
@@ -152,7 +151,7 @@ function createScatterplot() {
 
 // Create gridlines as an axis with no labels and full-width ticks
 gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
-
+}
 
 
 
