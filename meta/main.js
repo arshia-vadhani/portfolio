@@ -6,7 +6,7 @@ let commits = d3.groups(data, (d) => d.commit);
 
 // Define the function to load and convert the CSV data
 async function loadData() {
-  data = await d3.csv('meta/loc.csv', (row) => ({
+  data = await d3.csv('meta/meta/loc.csv', (row) => ({
     ...row,
     line: Number(row.line), // Convert line to a number
     depth: Number(row.depth), // Convert depth to a number
