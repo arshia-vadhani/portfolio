@@ -106,23 +106,33 @@ function processCommits() {
       .domain([0, 24]) // From 0 to 24 hours of the day
       .range([height, 0]);
   
-    // Draw the scatterplot (dots)
+    const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+    const rScale = d3
+  .scaleSqrt() // Change only this line
+  .domain([minLines, maxLines])
+  .range([2, 30]);
+    const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
     const dots = svg.append('g').attr('class', 'dots');
   
     dots
       .selectAll('circle')
-      .data(commits)
+      .data(sortedCommits)
       .join('circle')
       .attr('cx', (d) => xScale(d.datetime))  // X position based on datetime
       .attr('cy', (d) => yScale(d.hourFrac))  // Y position based on hour of the day
-      .attr('r', 5)  // Radius of the circle
-      .attr('fill', 'steelblue');  // Fill color for the circles
-    dots
-      .on('mouseenter', (event, commit) => {
-        updateTooltipContent(commit);
+      .attr('r', (d) => rScale(d.totalLines))  // Scaled radius
+      .attr('fill', 'steelblue')  // Fill color for the circles
+      .style('fill-opacity', 0.7) // Add transparency for overlapping dots
+      .on('mouseenter', function (event, d) {
+        d3.select(event.currentTarget).style('fill-opacity', 1); // Full opacity on hover
+        updateTooltipContent(d);
+        updateTooltipVisibility(true);
+        updateTooltipPosition(event);
       })
-      .on('mouseleave', () => {
-        updateTooltipContent({}); // Clear tooltip content
+      .on('mouseleave', function () {
+        d3.select(event.currentTarget).style('fill-opacity', 0.7); // Restore transparency
+        updateTooltipContent({});
+        updateTooltipVisibility(false);
       });
   
     const margin = { top: 10, right: 10, bottom: 30, left: 20 };
