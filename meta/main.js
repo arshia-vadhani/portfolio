@@ -14,8 +14,6 @@ async function loadData() {
     date: new Date(row.date + 'T00:00' + row.timezone), // Convert date and timezone
     datetime: new Date(row.datetime), // Convert datetime
   }));
-  console.log(data);
-  console.log(commits);
   processCommits();  // Ensure commits are populated before displaying stats
   displayStats();
   
@@ -94,6 +92,10 @@ function createScatterplot() {
   dots
     .selectAll('circle')
     .on('mouseenter', (event, commit) => {
+    console.log('Hovered commit:', d);
+    console.log('Author:', d.author);
+    console.log('Time:', d.time);
+    console.log('Lines Edited:', d.totalLines);
       updateTooltipContent(commit);
       d3.select(event.target)  // Select the hovered dot
         .transition()  // Smooth transition
