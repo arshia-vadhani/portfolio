@@ -14,7 +14,6 @@ async function loadData() {
     date: new Date(row.date + 'T00:00' + row.timezone), // Convert date and timezone
     datetime: new Date(row.datetime), // Convert datetime
   }));
-  console.log(data);
   console.log(commits);
   processCommits();  // Ensure commits are populated before displaying stats
   displayStats();
@@ -108,7 +107,7 @@ function createScatterplot() {
         .attr('r', 5);  // Reset radius to 5
     });
 
-    
+
   const margin = { top: 10, right: 10, bottom: 30, left: 20 };
   const usableArea = {
     top: margin.top,
