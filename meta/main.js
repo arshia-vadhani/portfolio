@@ -200,11 +200,50 @@ function brushSelector(brushLayer) {
   // Ensure dots appear above the overlay
   svg.selectAll('.dots, .overlay ~ *').raise();
 }
+function updateLanguageBreakdown() {
+  const selectedCommits = brushSelection
+    ? commits.filter(isCommitSelected)
+    : [];
+  const container = document.getElementById('language-breakdown');
+
+  if (selectedCommits.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const requiredCommits = selectedCommits.length ? selectedCommits : commits;
+  const lines = requiredCommits.flatMap((d) => d.lines);
+
+  // Use d3.rollup to count lines per language
+  const breakdown = d3.rollup(
+    lines,
+    (v) => v.length,
+    (d) => d.type // Assuming 'type' represents the language
+  );
+
+  // Update DOM with breakdown
+  container.innerHTML = '';
+
+  for (const [language, count] of breakdown) {
+    const proportion = count / lines.length;
+    const formatted = d3.format('.1~%')(proportion);
+
+    container.innerHTML += `
+      <dt>${language}</dt>
+      <dd>${count} lines (${formatted})</dd>
+    `;
+  }
+
+  return breakdown;
+}
+
 
 // Handle brushing events
 function brushed(event) {
   brushSelection = event.selection;
+  updateSelectionCount();
   updateSelection();
+  updateLanguageBreakdown();
 }
 
 // Check if a commit is selected
