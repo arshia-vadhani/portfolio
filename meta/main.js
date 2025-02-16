@@ -104,7 +104,9 @@ function createScatterplot() {
   xScale.range([usableArea.left, usableArea.right]);
   yScale.range([usableArea.bottom, usableArea.top]);
   const xAxis = d3.axisBottom(xScale);
-  const yAxis = d3.axisLeft(yScale);
+  const yAxis = d3
+  .axisLeft(yScale)
+  .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
 
 // Add X axis
   svg
@@ -117,6 +119,14 @@ function createScatterplot() {
   .append('g')
   .attr('transform', `translate(${usableArea.left}, 0)`)
   .call(yAxis);
+
+  const gridlines = svg
+  .append('g')
+  .attr('class', 'gridlines')
+  .attr('transform', `translate(${usableArea.left}, 0)`);
+
+// Create gridlines as an axis with no labels and full-width ticks
+gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
 }
 
 

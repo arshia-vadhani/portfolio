@@ -272,4 +272,9 @@ path {
 .selected:is(path) {
   fill: var(--color);
 }
+.gridlines line {
+  stroke: #ccc;  /* Light gray color for the gridlines */
+  opacity: 0.5;   /* Reduce opacity for a more subtle effect */
+  stroke-width: 1;  /* Thin line for the gridlines */
+}
 
