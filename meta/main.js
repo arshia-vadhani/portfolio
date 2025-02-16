@@ -139,7 +139,7 @@ function displayStats() {
     // Add more stats as needed...
     const numFiles = d3.group(data, (d) => d.file).size;
     dl.append('dt').text('Number of files in the codebase');
-    dl.append('dd').text(uniqueFiles.size); 
+    dl.append('dd').text(numFiles);
 
     const maxFileLength = d3.max(data, (d) => d.length);// Assuming 'length' column contains the number of lines per file
     dl.append('dt').text('Maximum file length (lines)');
