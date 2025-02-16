@@ -298,33 +298,29 @@ dl.info dd {
   font-weight: bold;  /* Make the values stand out */
 }
 
-/* Tooltip styling */
 .tooltip {
-  position: fixed;  /* Make it stay fixed on the screen */
-  top: 1em;  /* Position it 1em from the top of the viewport */
-  left: 1em;  /* Position it 1em from the left of the viewport */
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #ccc;
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   padding: 10px;
-  border-radius: 5px;
-  display: none;  /* Hidden by default */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  pointer-events: none; /* Avoid interacting with the tooltip */
+  font-size: 14px;
+  pointer-events: none;
+  transition: opacity 0.3s, visibility 0.3s;
 }
 
-
-/* Scale the dots on hover */
-.circle {
-  transition: transform 0.3s ease;  /* Smooth scaling */
-  transform-origin: center center;  /* Scale from the center */
-  transform-box: fill-box;  /* Ensure scaling is applied within the box */
+.tooltip[hidden] {
+  opacity: 0;
+  visibility: hidden;
 }
+
+/* Dot hover effect */
+circle {
+  transition: 200ms;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
 circle:hover {
   transform: scale(1.5);
-}
-
-/* Optionally: Tooltip style for better visibility */
-
-#commit-tooltip.visible {
-  display: block;  /* Make tooltip visible */
 }
