@@ -88,6 +88,13 @@ function processCommits() {
       .attr('cy', (d) => yScale(d.hourFrac))  // Y position based on hour of the day
       .attr('r', 5)  // Radius of the circle
       .attr('fill', 'steelblue');  // Fill color for the circles
+    dots
+      .on('mouseenter', (event, commit) => {
+        updateTooltipContent(commit);
+      })
+      .on('mouseleave', () => {
+        updateTooltipContent({}); // Clear tooltip content
+      });
   
     const margin = { top: 10, right: 10, bottom: 30, left: 20 };
     const usableArea = {
@@ -176,7 +183,6 @@ function displayStats() {
 
 
 function updateTooltipContent(commit) {
-  console.log('Update Tooltip Content:', commit);
   const link = document.getElementById('commit-link');
   const date = document.getElementById('commit-date');
 
