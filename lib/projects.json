@@ -35,7 +35,14 @@
         "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "worked with a project group to create a visualization that would show the difference between health care standards and mortality rates amongst black and white women"
-    }
+    },
     
+    {
+        "title": "Boston Interactive Bike Map",
+        "year": "2025",
+        "image": "https://arshia-vadhani.github.io/portfolio/images/Boston_proj_ss.png",
+        "description": "Created a geospacial visualization that was map of Boston's Bike lanes, stations, and portrayed its arrival and departure rates per station at different times",
+        "link": "https://arshia-vadhani.github.io/bostons_wheelie_excited/"
+    }
     
 ]
