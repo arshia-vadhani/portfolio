@@ -51,16 +51,18 @@ function renderPieChart(projectsGiven) {
                     project => project.year === selectedYear
                 );
 
+                // Update both the project list and pie chart based on selection
                 renderProjects(filteredProjects, projectsContainer, 'h2');
+                renderPieChart(filteredProjects);
             });
     });
 
     // Create the legend
     const legend = d3.select(".legend");
     data.forEach((d, idx) => {
-        legend.append("li")
-            .attr("style", `--color:${colors(idx)}`)
-            .attr("class", "legend-item")
+        legend.append('li')
+            .attr('style', `--color:${colors(idx)}`)
+            .attr('class', 'legend-item')
             .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
             .on("click", () => {
                 // Filter projects by selected year via legend click
@@ -69,7 +71,9 @@ function renderPieChart(projectsGiven) {
                     project => project.year === selectedYear
                 );
 
+                // Update both the project list and pie chart based on selection
                 renderProjects(filteredProjects, projectsContainer, 'h2');
+                renderPieChart(filteredProjects);
             });
     });
 }
@@ -97,4 +101,3 @@ renderPieChart(projects);
 // Add event listener for search input
 const searchInput = document.querySelector('.searchBar');
 searchInput.addEventListener('input', handleSearch);
-
