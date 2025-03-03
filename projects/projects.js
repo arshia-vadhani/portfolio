@@ -12,6 +12,20 @@ let sliceGenerator = d3.pie().value(d => d.value);
 
 // Set up the colors for the pie chart
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
+let query = '';
+let searchInput = document.querySelector('.searchBar');
+
+searchInput.addEventListener('change', (event) => {
+  // update query value
+  query = event.target.value;
+  // filter projects
+  let filteredProjects = projects.filter((project) => {
+    let values = Object.values(project).join('\n').toLowerCase();
+    return values.includes(query.toLowerCase());
+  });
+  // render filtered projects
+  renderProjects(filteredProjects, projectsContainer, 'h2');
+});
 
 // Function to create the pie chart and update the legend
 function createPieChart(data) {
@@ -100,18 +114,4 @@ let aggregatedData = d3.rollups(
 // Render the initial pie chart
 createPieChart(aggregatedData);
 
-// Search functionality
-let query = '';
-let searchInput = document.querySelector('.searchBar');
 
-searchInput.addEventListener('change', (event) => {
-  // update query value
-  query = event.target.value;
-  // filter projects
-  let filteredProjects = projects.filter((project) => {
-    let values = Object.values(project).join('\n').toLowerCase();
-    return values.includes(query.toLowerCase());
-  });
-  // render filtered projects
-  renderProjects(filteredProjects, projectsContainer, 'h2');
-});
